@@ -4,7 +4,7 @@
 #   simple library for stroring python dictionaries in sqlite database
 #
 __author__ = 'Andrey Usov <https://github.com/ownport/scrapy-dblite>'
-__version__ = '0.2.6'
+__version__ = '0.2.7'
 
 import os
 import re
@@ -127,7 +127,9 @@ class Storage(object):
         backend, rest_uri = uri.split('://')
         if backend not in SUPPORTED_BACKENDS:
             raise RuntimeError('Unknown backend: {}'.format(backend))
-        database, table = rest_uri.split(':')
+        delimiter_pos = rest_uri.rfind(':')
+        database = rest_uri[:delimiter_pos]
+        table = rest_uri[delimiter_pos + 1:]
 
         return database, table
 
